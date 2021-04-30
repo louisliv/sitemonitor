@@ -10,7 +10,7 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 monitor = Monitor()
 system_info = SystemInfo()
 
-@app.route('/')
+@app.route('/monitor')
 def get_monitor():
     return jsonify(monitor.get_data())
 
