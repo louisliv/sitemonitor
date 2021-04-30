@@ -1,0 +1,12 @@
+/node_modules
+*.pyc
+server/*__pycache__
+server/db.sqlite3
+client/node_modules/
+client/build/
+.vscode
+server/pip-selfcheck.json
+*.retry
+envs
+data
+/sitemoniter

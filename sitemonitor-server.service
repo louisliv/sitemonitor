@@ -1,0 +1,16 @@
+[Unit]
+Description=sitemonitor-server daemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+Environment=FLASK_PRODUCTION=production
+WorkingDirectory=/var/www/sitemonitor/server
+ExecStart=/usr/bin/python3 -m server
+StandardOutput=append:/var/log/sitemonitor.log
+StandardError=append:/var/log/sitemonitor.error.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+html {
+    height: 100%;
+}
+  
+body {
+    height: 100%;
+}
+
+.app {
+    text-align: center;
+    background-color: #343A40;
+    height: 100%;
+    color: white;
+}
+
+.sysinfo-card {
+    background-color: #6c757d !important;
+
+}
+
+.sysinfo-card table {
+    color: white !important;
+}
