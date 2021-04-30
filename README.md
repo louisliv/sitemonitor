@@ -1,2 +1,2 @@
-# baseball
-Baseball score-keeping web application 
+# sitemonitor
+Web-based system monitor
