@@ -24,7 +24,6 @@ echo -e "Progress:1"
 echo -e " ${LRED}-${NC}${WHITE} Removing old files...${NC}"
 sudo rm /var/www/sitemonitor
 sudo rm /etc/systemd/system/sitemonitor-server.service
-sudo rm /etc/nginx/sites-enabled/default
 sudo rm /var/log/sitemonitor.error.log
 sudo rm /var/log/sitemonitor.log
 sudo rm -rf $SITEMONITOR/client/build

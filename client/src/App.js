@@ -34,7 +34,7 @@ function App() {
         var originBaseUrl = 'http://' + window.location.hostname + apiAppend;
 
         const intervalId = setInterval(() => {  
-            fetch(originBaseUrl)
+            fetch(`${originBaseUrl}/monitor`)
                 .then(res => res.json())
                 .then(
                     (result) => {
