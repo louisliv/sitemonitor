@@ -10,3 +10,4 @@ server/pip-selfcheck.json
 envs
 data
 /sitemoniter
+/client/package-lock.json
