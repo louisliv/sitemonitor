@@ -45,28 +45,49 @@ class Monitor:
         self.data['percent_mem'] = mem_percent
 
     def get_cpu_temps(self):
-        temps = psutil.sensors_temperatures()['coretemp']
+        sensors = psutil.sensors_temperatures()
 
+        if (sensors.get('coretemp', None)):
+            self.get_standard_temps(sensors['coretemp'])
+        else:
+            self.get_non_standard_temps(sensors)
+
+    def get_non_standard_temps(self, temps): 
+        for temp in temps['k10temp']:
+            temp_clone = [
+                'CPU', 
+                temp[1],
+                temp[2],
+                temp[3]
+            ]
+            self.set_temp(temp_clone)
+
+    def get_standard_temps(self, temps):
         for temp in temps:
             if "core" in temp[0].lower():
-                key = temp[0]
-                current_temp = {
-                    'temp': temp[1], 
-                    'time': datetime.now().strftime("%H:%M:%S")
-                }
-                high_temp = temp[2]
+                self.set_temp(temp)
 
-                if (self.data['cpu_temps'].get(key, None) and 
-                    self.data['cpu_temps'][key].get('data', None)):
-                    current_list = self.data['cpu_temps'][key]['data']
-                    new_list = current_list[-19:]
-                    new_list.append(current_temp)
-                    self.data['cpu_temps'][key]['data'] = new_list
-                else:
-                    self.data['cpu_temps'][key] = {}
-                    self.data['cpu_temps'][key]['data'] = [current_temp]
-                    self.data['cpu_temps'][key]['high_temp'] = high_temp
-                    self.data['cpu_temps'][key]['label'] = key
+    def set_temp(self, temp):
+        key = temp[0]
+        current_temp = {
+            'temp': temp[1], 
+            'time': datetime.now().strftime("%H:%M:%S")
+        }
+        high_temp = temp[2]
+        critical_temp = temp[3]
+
+        if (self.data['cpu_temps'].get(key, None) and 
+            self.data['cpu_temps'][key].get('data', None)):
+            current_list = self.data['cpu_temps'][key]['data']
+            new_list = current_list[-19:]
+            new_list.append(current_temp)
+            self.data['cpu_temps'][key]['data'] = new_list
+        else:
+            self.data['cpu_temps'][key] = {}
+            self.data['cpu_temps'][key]['data'] = [current_temp]
+            self.data['cpu_temps'][key]['high_temp'] = high_temp
+            self.data['cpu_temps'][key]['critical_temp'] = critical_temp
+            self.data['cpu_temps'][key]['label'] = key
 
     def get_data(self):
         self.cpu_usage()
@@ -84,4 +105,3 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Y', suffix)
-
