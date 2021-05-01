@@ -31,7 +31,6 @@ const styles = {
 const getSliceColor = slice => slice.data.color;
 
 const PercentPieChart = ({ systemData , secondaryLabel}) => {  
-    console.log(secondaryLabel)
     const getData = () => {
 
         return [

@@ -6,11 +6,10 @@ import {
     Col,
     Container,
     Card,
-    CardBody,
-    Table
+    CardBody
 } from 'reactstrap';
 
-import { PercentPieChart } from "./_components";
+import { PercentPieChart, CpuTempsChart } from "./_components";
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -65,49 +64,56 @@ function App() {
     } else {
         return (
             <Container fluid>
-                <Row>
-                    <Col xs="12 text-center"><h1>Site Monitor</h1></Col>
+                <Row className="margin-bottom">
+                    <Col xs="12" className="text-center margin-bottom"><h1>Site Monitor</h1></Col>
                     <Col xs="12" md="4">
-                        <div className="text-center">CPU Utilization</div>
+                        <div className="text-center label-margin-bottom">CPU Utilization</div>
                         <PercentPieChart systemData={state.cpu_usage}/>
                     </Col>
                     <Col xs="12" md="4">
-                        <div className="text-center">HDD Utilization</div>
+                        <div className="text-center label-margin-bottom">HDD Utilization</div>
                         <PercentPieChart systemData={state.hdd_percent}
                             secondaryLabel={`${state.hdd_used}/${state.hdd_total} Used`}
                             />
                     </Col>
                     <Col xs="12" md="4">
-                        <div className="text-center">Memory Utilization</div>
+                        <div className="text-center label-margin-bottom">Memory Utilization</div>
                         <PercentPieChart systemData={state.percent_mem}
                             secondaryLabel={`${state.used_mem}/${state.mem_total} Used`}
                             />
                     </Col>
                 </Row>
                 <Row>
+                    {state.cpu_temps ?
+                        Object.keys(state.cpu_temps).map(key =>
+                            <Col key={key} xs='12' md='6' className="margin-bottom">
+                                <div className="label-margin-bottom">{`${key} Temp`}</div>
+                                <CpuTempsChart cpuTemps={state.cpu_temps[key]}
+                                    dataKey={key}/>
+                            </Col>
+                        ) : null
+                    }
+                </Row>
+                <Row className="margin-bottom">
                     <Col>
                         <Card className="sysinfo-card">
                             <CardBody>
-                                <Table borderless>
-                                    <tbody>
-                                        <tr>
-                                            <td>CPU:</td>
-                                            <td>{sysInfo.cpu}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Arch:</td>
-                                            <td>{sysInfo.arch}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cores / Threads:</td>
-                                            <td>{`${sysInfo.cpu_count} / ${sysInfo.thread_count}`}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>OS:</td>
-                                            <td>{sysInfo.os}</td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
+                                <Row>
+                                    <Col xs='6' className="text-center">CPU:</Col>
+                                    <Col xs='6' className="text-center">{sysInfo.cpu}</Col>
+                                </Row>
+                                <Row>
+                                    <Col xs='6' className="text-center">Arch:</Col>
+                                    <Col xs='6' className="text-center">{sysInfo.arch}</Col>
+                                </Row>
+                                <Row>
+                                    <Col xs='6' className="text-center">Cores / Threads:</Col>
+                                    <Col xs='6' className="text-center">{`${sysInfo.cpu_count} / ${sysInfo.thread_count}`}</Col>
+                                </Row>
+                                <Row>
+                                    <Col xs='6' className="text-center">OS:</Col>
+                                    <Col xs='6' className="text-center">{sysInfo.os}</Col>
+                                </Row>
                             </CardBody>
                         </Card>
                     </Col>

@@ -1,23 +1,25 @@
 html {
-    height: 100%;
-}
-  
-body {
-    height: 100%;
+    background-color: #343A40;
 }
 
 .app {
     text-align: center;
     background-color: #343A40;
-    height: 100%;
     color: white;
 }
 
 .sysinfo-card {
     background-color: #6c757d !important;
-
 }
 
 .sysinfo-card table {
     color: white !important;
+}
+
+.margin-bottom {
+    margin-bottom: 30px;
+}
+
+.label-margin-bottom {
+    margin-bottom: 15px;
 }

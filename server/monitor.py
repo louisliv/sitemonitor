@@ -1,8 +1,8 @@
 import random, json, subprocess, psutil
+from datetime import datetime
 
 KEY_VALUES = [
-    'cpu_usage', 
-    'cpu_temp', 
+    'cpu_usage',
     'hdd_percent',
     'used_mem',
     'percent_mem',
@@ -12,7 +12,9 @@ KEY_VALUES = [
 ]
 
 class Monitor:
-    data={}
+    data={
+        'cpu_temps': {}
+    }
 
     def __init__(self):
         for value in KEY_VALUES:
@@ -21,11 +23,6 @@ class Monitor:
     def cpu_usage(self):
         cpu_usage = psutil.cpu_percent(interval=2)
         self.data['cpu_usage'] = float(cpu_usage)
-
-    def cpu_temp(self):
-        temps = psutil.sensors_temperatures()
-
-        self.data['cpu_temp'] = temps
 
     def disk_usage(self):
         disk_usage = psutil.disk_usage('/')
@@ -47,13 +44,37 @@ class Monitor:
         mem_percent = psutil.virtual_memory().percent
         self.data['percent_mem'] = mem_percent
 
+    def get_cpu_temps(self):
+        temps = psutil.sensors_temperatures()['coretemp']
+
+        for temp in temps:
+            if "core" in temp[0].lower():
+                key = temp[0]
+                current_temp = {
+                    'temp': temp[1], 
+                    'time': datetime.now().strftime("%H:%M:%S")
+                }
+                high_temp = temp[2]
+
+                if (self.data['cpu_temps'].get(key, None) and 
+                    self.data['cpu_temps'][key].get('data', None)):
+                    current_list = self.data['cpu_temps'][key]['data']
+                    new_list = current_list[-19:]
+                    new_list.append(current_temp)
+                    self.data['cpu_temps'][key]['data'] = new_list
+                else:
+                    self.data['cpu_temps'][key] = {}
+                    self.data['cpu_temps'][key]['data'] = [current_temp]
+                    self.data['cpu_temps'][key]['high_temp'] = high_temp
+                    self.data['cpu_temps'][key]['label'] = key
+
     def get_data(self):
         self.cpu_usage()
-        self.cpu_temp()
         self.disk_usage()
         self.used_mem()
         self.percent_mem()
         self.total_mem()
+        self.get_cpu_temps()
 
         return self.data
 
@@ -63,3 +84,4 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Y', suffix)
+
