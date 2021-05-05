@@ -1,0 +1,48 @@
+<div class="row" *ngIf="!isLoaded && !loadError">
+    <div class="col-12 text-center">
+        <fa-icon [icon]="faSpinner" [spin]="true" class="fa-5x margin-top"></fa-icon>
+    </div>
+</div>
+
+<div class="row" *ngIf="!isLoaded && loadError">
+    <div class="col-12 text-center">
+        {{loadError}}
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12 text-center margin-top">
+        <h2>Site Monitor</h2>
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12 col-md-4">
+        <div class="text-center label-margin-bottom">
+            CPU Utilization
+        </div>
+        <percent-chart [data]="monitor.cpu_usage"></percent-chart>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="text-center label-margin-bottom margin-top-mobile">
+            HDD Utilization
+        </div>
+        <percent-chart [data]="monitor.hdd_percent"
+            [secondaryLabel]="monitor.hdd_used + ' / ' + monitor.hdd_total + ' Used'">
+        </percent-chart>
+    </div>
+     <div class="col-12 col-md-4">
+        <div class="text-center label-margin-bottom margin-top-mobile">
+            Memory Utilization
+        </div>
+        <percent-chart [data]="monitor.percent_mem"
+            [secondaryLabel]="monitor.used_mem + ' / ' + monitor.mem_total + ' Used'">
+        </percent-chart>
+    </div>
+</div>
+
+<div class="row margin-top" *ngIf="isLoaded">
+    <div class="col-12 col-md-6 margin-bottom" *ngFor="let temp of monitor.cpu_temps | keyvalue; trackBy:itemTracker">
+        <temp-chart [data]="temp.value" [label]="temp.key"></temp-chart>
+    </div>
+</div>

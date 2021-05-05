@@ -1,0 +1,16 @@
+<div class="chart">
+    <canvas #percentcanvas baseChart
+        [data]="doughnutChartData"
+        [labels]="false"
+        [chartType]="doughnutChartType"
+        [options]="chartOptions"
+        [colors]="chartColors"
+        [plugins]="doughnutChartPlugins">
+    </canvas>
+    <div class="legend">
+        <span>{{doughnutChartData[0]}}%</span>
+    </div>
+</div>
+<div class="text-center" *ngIf="_secondaryLabel">
+    {{_secondaryLabel}}
+</div>

@@ -1,0 +1,22 @@
+[
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 1,
+        "fields": {
+            "key": "db_port",
+            "label": "Database Port",
+            "value": "",
+            "value_type": "char"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 2,
+        "fields": {
+            "key": "cpu_temp_key",
+            "label": "CPU Temp Key",
+            "value": "coretemp",
+            "value_type": "char"
+        }
+    }
+  ]

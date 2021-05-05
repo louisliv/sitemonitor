@@ -1,0 +1,36 @@
+<div class="row" *ngIf="!isLoaded">
+    <div class="col-12 text-center">
+        <fa-icon [icon]="faSpinner" [spin]="true" class="fa-5x margin-top"></fa-icon>
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12 text-center margin-top">
+        <h2>Settings</h2>
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let setting of settings">
+                            <td>{{setting.label}}</td>
+                            <td>{{setting.key}}</td>
+                            <td>{{setting.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

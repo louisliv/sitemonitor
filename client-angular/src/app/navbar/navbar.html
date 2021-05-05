@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-md navbar-dark nav-bar">
+  <ul ngbNav>
+    <li [ngbNavItem]="'home'">
+      <a ngbNavLink [routerLink]="['/home']" 
+        [routerLinkActive]="'active'"
+        class="btn btn-secondary">
+        <fa-icon [icon]="faChartArea"></fa-icon>
+      </a>
+    </li>
+    <li [ngbNavItem]="'settings'">
+      <a ngbNavLink [routerLink]="['/settings']" 
+        [routerLinkActive]="'active'"
+        class="btn btn-secondary">
+        <fa-icon [icon]="faCog"></fa-icon>
+      </a>
+    </li>
+    <li [ngbNavItem]="'system-info'">
+      <a ngbNavLink [routerLink]="['/system-info']" 
+        [routerLinkActive]="'active'"
+        class="btn btn-secondary">
+        <fa-icon [icon]="faDesktop"></fa-icon>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,82 @@
+[
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 1,
+        "fields": {
+            "key":"test_char",
+            "label":"test char",
+            "value":"test",
+            "value_type": "char"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 2,
+        "fields": {
+            "key":"test_list",
+            "label":"test list",
+            "value":"1,2,3",
+            "value_type":"list"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 3,
+        "fields": {
+            "key":"test_tuple",
+            "label":"test tuple",
+            "value":"1,2,3",
+            "value_type":"tuple"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 4,
+        "fields": {
+            "key":"test_true",
+            "label":"test true",
+            "value":"True",
+            "value_type":"bool"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 5,
+        "fields": {
+            "key":"test_false",
+            "label":"test false",
+            "value":"False",
+            "value_type":"bool"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 6,
+        "fields": {
+            "key":"test_int",
+            "label":"test int",
+            "value":"3",
+            "value_type":"int"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 7,
+        "fields": {
+            "key":"test_float",
+            "label":"test float",
+            "value":"3.5",
+            "value_type":"float"
+        }
+    },
+    {
+        "model": "sitemonitor.systemsetting",
+        "pk": 8,
+        "fields": {
+            "key":"test_dict",
+            "label":"test dict",
+            "value":"{\"test1\": \"test1\",\"test2\":[1,2,3]}",
+            "value_type":"dict"
+        }
+    }
+  ]

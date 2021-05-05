@@ -1,0 +1,28 @@
+<div class="row" *ngIf="!isLoaded">
+    <div class="col-12 text-center">
+        <fa-icon [icon]="faSpinner" [spin]="true" class="fa-5x margin-top"></fa-icon>
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12 text-center margin-top">
+        <h2>System Info</h2>
+    </div>
+</div>
+
+<div class="row" *ngIf="isLoaded">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let info of systemInfo | keyvalue">
+                            <td>{{info.key}}</td>
+                            <td>{{info.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
