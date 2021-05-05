@@ -12,3 +12,4 @@ data
 /sitemoniter
 /client/package-lock.json
 static
+*package-lock.json
