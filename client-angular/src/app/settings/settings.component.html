@@ -14,22 +14,45 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <div class="text-right margin-bottom-small">
+                    <button class="btn btn-success" (click)="openAddModal()">Add</button>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Label</th>
                             <th>Key</th>
                             <th>Value</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let setting of settings">
-                            <td>{{setting.label}}</td>
-                            <td>{{setting.key}}</td>
-                            <td>{{setting.value}}</td>
+                        <tr *ngFor="let setting of settings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i=index;">
+                            <td class="align-middle">{{setting.label}}</td>
+                            <td class="align-middle">{{setting.key}}</td>
+                            <td class="align-middle">{{setting.value}}</td>
+                            <td class="actions align-middle text-right" [ngClass]="{'no-border-top': i == 0 }">
+                                <div>
+                                    <button class="btn btn-primary" (click)="openEditModal(setting)">
+                                        <fa-icon [icon]="faPencil"></fa-icon>
+                                    </button>
+                                    <button class="btn btn-danger" 
+                                        [disabled]="!setting.deletable"
+                                        (click)="remove(setting)">
+                                        <fa-icon [icon]="faTrash"></fa-icon>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+                <ngb-pagination [collectionSize]="settings.length" 
+                    [(page)]="page" 
+                    [maxSize]="5" 
+                    [rotate]="true" 
+                    [ellipses]="false" 
+                    [boundaryLinks]="true">
+                </ngb-pagination>
             </div>
         </div>
     </div>

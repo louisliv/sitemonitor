@@ -17,6 +17,8 @@ import { ApiServicesModule } from './api/api.services.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './api/api.interceptor';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from "./services/auth.service";
+import { ApiAuth } from "./api/api.auth";
 
 @NgModule({
   declarations: [
@@ -33,11 +35,13 @@ import { CookieService } from 'ngx-cookie-service';
     SystemInfoModule,
     LoginModule,
     FontAwesomeModule,
-    ApiServicesModule,
+    ApiServicesModule
   ],
   providers: [
+    ApiAuth,
     CookieService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

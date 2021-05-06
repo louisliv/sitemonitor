@@ -11,6 +11,7 @@ import { UserLogin } from './../models/user-login.model';
 })
 export class LoginComponent implements OnInit {
   userLogin : UserLogin;
+  serverError: string;
 
   constructor(
     private apiLogin:ApiLogin, 
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
     private router:Router,
   ) { 
     this.userLogin = new UserLogin();
+    this.serverError = '';
   }
 
   ngOnInit(): void {
@@ -28,10 +30,13 @@ export class LoginComponent implements OnInit {
       next: data => {
         this.cookieService.set("token", data.token);
         this.cookieService.set("username", data.username);
+        this.apiLogin.authenticated.emit(true);
+        this.serverError = null;
         //Redirects to main page
         this.router.navigate(['./']);
       },
       error: err =>{
+        this.serverError = `${err.error.status}: ${err.error.message}`;
       }
     });
   }

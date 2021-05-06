@@ -10,7 +10,8 @@ class SystemSettingSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = SystemSetting
-        fields = ['key', 'label', 'value', 'value_type']
+        fields = ['id','key', 'label', 'value', 
+            'value_type', 'deletable']
 
     def get_value(self, obj):
         return obj.get_value()

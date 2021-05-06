@@ -1,0 +1,64 @@
+<form (ngSubmit)="submit()" #SettingForm="ngForm" validate>
+    <div class="modal-header">
+        <h5 class="modal-title">{{action}} Setting</h5>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Label*</label>
+            <input required 
+                [(ngModel)]="setting.label" 
+                name="label" 
+                #labelField="ngModel"
+                class="form-control">
+            <!-- input validation-->
+            <div class="text-danger" *ngIf="(labelField.touched || SettingForm.submitted) && labelField.errors?.required">
+                Label is required
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Key*</label>
+            <input required 
+                [(ngModel)]="setting.key" 
+                name="key" 
+                #key="ngModel"
+                class="form-control">
+            <!-- input validation-->
+            <div class="text-danger" *ngIf="(key.touched || SettingForm.submitted) && key.errors?.required">
+                Key is required
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Value</label>
+            <input [(ngModel)]="setting.value" 
+                name="value" 
+                #settingValue="ngModel"
+                class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Value Type*</label>
+            <select [(ngModel)]="setting.value_type" 
+                class="form-control"
+                name="value_type" 
+                #valueType="ngModel">
+                <option *ngFor="let type of types" [ngValue]="type">{{type}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" 
+                    ngbButton 
+                    [(ngModel)]="setting.deletable" 
+                    name="deletable" 
+                    #deletable="ngModel">
+                Deletable
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(setting)">Close</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!SettingForm.form.valid">Submit</button> 
+    </div>
+</form>

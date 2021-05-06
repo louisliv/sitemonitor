@@ -28,6 +28,7 @@ class SystemSetting(models.Model):
     value = models.SlugField(allow_unicode=True, default='')
     value_type = models.CharField(max_length=5, 
         choices=VALUE_TYPE_CHOICES, default=CHAR_TYPE)
+    deletable = models.BooleanField(default=True)
 
     def get_value(self):
         method_name = f"get_{self.value_type}"

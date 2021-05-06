@@ -6,7 +6,8 @@
             "key": "db_port",
             "label": "Database Port",
             "value": "",
-            "value_type": "char"
+            "value_type": "char",
+            "deletable": false
         }
     },
     {
@@ -16,7 +17,8 @@
             "key": "cpu_temp_key",
             "label": "CPU Temp Key",
             "value": "coretemp",
-            "value_type": "char"
+            "value_type": "char",
+            "deletable": false
         }
     }
   ]

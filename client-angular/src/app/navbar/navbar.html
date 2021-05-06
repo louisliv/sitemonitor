@@ -1,25 +1,42 @@
 <nav class="navbar navbar-expand-md navbar-dark nav-bar">
   <ul ngbNav>
     <li [ngbNavItem]="'home'">
-      <a ngbNavLink [routerLink]="['/home']" 
-        [routerLinkActive]="'active'"
+      <a ngbNavLink routerLink="home" 
+        [routerLinkActive]="'navTabActive'"
+        [routerLinkActiveOptions]="{ exact: true }"
         class="btn btn-secondary">
         <fa-icon [icon]="faChartArea"></fa-icon>
       </a>
     </li>
     <li [ngbNavItem]="'settings'">
-      <a ngbNavLink [routerLink]="['/settings']" 
-        [routerLinkActive]="'active'"
+      <a ngbNavLink routerLink="settings" 
+        [routerLinkActive]="'navTabActive'"
         class="btn btn-secondary">
         <fa-icon [icon]="faCog"></fa-icon>
       </a>
     </li>
     <li [ngbNavItem]="'system-info'">
-      <a ngbNavLink [routerLink]="['/system-info']" 
-        [routerLinkActive]="'active'"
+      <a ngbNavLink routerLink="system-info" 
+        [routerLinkActive]="'navTabActive'"
         class="btn btn-secondary">
         <fa-icon [icon]="faDesktop"></fa-icon>
       </a>
+    </li>
+  </ul>
+  <div class="flex-fill"></div>
+  <ul ngbNav class="user-btns">
+    <li [ngbNavItem]="'login'" *ngIf="!isLoggedIn">
+      <a [routerLink]="['/login']"
+        [routerLinkActive]="'navTabActive'"
+        class="btn btn-secondary">
+        <fa-icon [icon]="faSignIn"></fa-icon>
+      </a>
+    </li>
+    <li [ngbNavItem]="'logout'" *ngIf="isLoggedIn">
+      <button class="btn btn-secondary"
+        (click)="logout()">
+        <fa-icon [icon]="faSignOut"></fa-icon>
+      </button>
     </li>
   </ul>
 </nav>

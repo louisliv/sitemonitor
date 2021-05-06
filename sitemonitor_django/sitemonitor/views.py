@@ -20,6 +20,44 @@ class SystemSettingViewSet(viewsets.ModelViewSet):
     def types(self, request):
         return Response([x[0] for x in SystemSetting.VALUE_TYPE_CHOICES])
 
+    def create(self, request):
+        data = request.data
+        print(data)
+
+        try:
+            new_setting = SystemSetting(
+                key = data.get('key'),
+                label = data.get("label"),
+                value_type = data.get("value_type"),
+                value = data.get("value", ""),
+                deletable = data.get("deletable")
+            )
+            new_setting.save()
+
+            return Response(SystemSettingSerializer(new_setting).data, 
+                status=status.HTTP_201_CREATED)
+        except Exception as m:
+            return Response(m, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk = None):
+        old_setting = self.get_object()
+        data = request.data
+        print(data)
+
+        try:
+            old_setting.key = data.get('key')
+            old_setting.label = data.get("label")
+            old_setting.value_type = data.get("value_type")
+            old_setting.value = data.get("value", "")
+            old_setting.deletable = data.get("deletable")
+
+            old_setting.save()
+
+            return Response(SystemSettingSerializer(old_setting).data, 
+                status=status.HTTP_200_OK)
+        except Exception as m:
+            return Response(m, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MonitorView(viewsets.GenericViewSet):
     permission_classes = [permissions.IsAdminUser]
@@ -49,7 +87,7 @@ class AuthViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def is_authenticated(self, request):
-        return Response(request.user.is_authenticated())
+        return Response(request.user.is_authenticated)
 
     @action(detail=False, methods=['post'])
     def login(self, request):
@@ -73,7 +111,7 @@ class AuthViewSet(viewsets.ViewSet):
 
             if username and password:
                 auth_user = auth.authenticate(username=username, password=password)
-                if user is not None:
+                if auth_user is not None:
                     auth.login(request, auth_user)
                     serialized = UserSerializer(request.user)
                     return Response(serialized.data, status=status.HTTP_200_OK)

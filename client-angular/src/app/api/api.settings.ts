@@ -24,4 +24,25 @@ export class SettingsApi {
 
         return this.http.get<string[]>(url);
     }
+
+    create(newSetting: Setting): Observable<Setting>
+    {
+        var url = `${environment.apiUrl}/system-settings/`;
+
+        return this.http.post<Setting>(url, newSetting)
+    }
+
+    update(updateSetting: Setting): Observable<Setting>
+    {
+        var url = `${environment.apiUrl}/system-settings/${updateSetting.id}/`;
+
+        return this.http.put<Setting>(url, updateSetting)
+    }
+
+    destroy(destroySetting: Setting): Observable<any>
+    {
+        var url = `${environment.apiUrl}/system-settings/${destroySetting.id}/`;
+
+        return this.http.delete<any>(url);
+    }
 }

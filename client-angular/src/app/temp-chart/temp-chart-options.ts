@@ -30,7 +30,8 @@ export const TempChartOptions: ChartOptions = {
                 color:'white',
                 },
                 ticks: {
-                    fontColor: "white"
+                    fontColor: "white",
+                    beginAtZero: true
                 }
             }
         ],

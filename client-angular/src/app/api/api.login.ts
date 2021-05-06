@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserLogin } from "./../models/user-login.model"
@@ -8,6 +8,7 @@ import { environment } from './../../environments/environment';
 // this service be call in the appointments page component for back-end communications
 @Injectable()
 export class ApiLogin{
+    @Output() authenticated:EventEmitter<Boolean> = new EventEmitter();
 
     constructor(private http: HttpClient) { }
 

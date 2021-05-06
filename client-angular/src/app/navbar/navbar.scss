@@ -1,9 +1,36 @@
 .nav-bar {
     background-color: #15191c;
+    height: 100%;
 }
 
 .nav-bar.navbar {
-    display: block;
+    display: flex;
+
+    .btn.navTabActive {
+        border: 0px;
+        color: #339af0;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+
+    .btn:not(.navTabActive) {
+        border: 0px;
+        color: white;
+        background: transparent;
+
+        &:hover {
+            background: #5a6268;
+            border-radius: 0px;
+        }
+
+        &:active {
+            box-shadow: none;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
 }
 
 @media (max-width: 767px) {
@@ -11,6 +38,15 @@
         width: 100%;
         padding-top: 0px;
         padding-bottom: 0px;
+        flex-direction: row;
+
+        .user-btns {
+            height: 100%;
+    
+            .btn {
+                height: 100%;
+            }
+        }
     }
 
     .nav-bar .nav {
@@ -21,11 +57,19 @@
 
 @media (min-width: 768px) {
     .nav-bar {
-        height: 100%;
         position: fixed;
         padding-left: 0px;
         padding-right: 0px;
         box-shadow: 1px 1px 3px #343A40;
+        flex-direction: column;
+
+        .user-btns {
+            width: 100%;
+    
+            .btn {
+                width: 100%;
+            }
+        }
     }
 
     .nav-bar .nav {
@@ -34,25 +78,13 @@
 }
 
 .nav-bar .btn {
-    &.active {
-        border: 0px;
-        color: #339af0;
-        box-shadow: none;
-        border-radius: 0px;
-    }
-
-    &:focus:active {
+    &:focus {
         outline: none;
+        box-shadow: none;
     }
-}
 
-.nav-bar .btn:not(.active) {
-    border: 0px;
-    color: white;
-    background: transparent;
-
-    &:hover {
-        background: #5a6268;
-        border-radius: 0px;
+    &:active {
+        outline: none;
+        box-shadow: none;
     }
 }
