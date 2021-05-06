@@ -38,8 +38,7 @@ class Monitor:
 
     def total_mem(self):
         mem_total = psutil.virtual_memory()
-        self.data['mem_total'] = sizeof_fmt(
-            mem_total.total - mem_total.inactive)
+        self.data['mem_total'] = sizeof_fmt(mem_total.total)
 
     def percent_mem(self):
         mem_percent = psutil.virtual_memory().percent
