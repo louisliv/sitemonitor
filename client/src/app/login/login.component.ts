@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { ApiLogin } from 'src/app/api/api.login';
 import { UserLogin } from 'src/app/models/user-login.model';
 import { ToastService } from "src/app/services/toast.service";
@@ -15,8 +14,7 @@ export class LoginComponent implements OnInit {
   serverError: string;
 
   constructor(
-    private apiLogin: ApiLogin, 
-    private cookieService: CookieService, 
+    private apiLogin: ApiLogin,
     private router: Router,
     private toastService: ToastService
   ) { 
@@ -30,8 +28,6 @@ export class LoginComponent implements OnInit {
   login():void{
     this.apiLogin.login(this.userLogin).subscribe({
       next: data => {
-        this.cookieService.set("token", data.token);
-        this.cookieService.set("username", data.username);
         this.apiLogin.authenticated.emit(true);
         this.serverError = null;
 

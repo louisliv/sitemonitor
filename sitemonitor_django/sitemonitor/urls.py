@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf.urls import url
 from rest_framework import routers
 from sitemonitor.views import (MonitorView, 
     SystemInfoView, SystemSettingViewSet, index,
@@ -12,5 +13,5 @@ router.register(r'auth', AuthViewSet, basename='auth')
 
 urlpatterns = [
     path('/api/', include(router.urls)),
-    path('', index)
+    url(r'^(?P<path>.*)/$', index)
 ]

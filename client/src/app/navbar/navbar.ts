@@ -8,8 +8,8 @@ import {
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { ApiLogin } from "src/app/api/api.login";
-import { CookieService } from 'ngx-cookie-service';
 import { ToastService } from "src/app/services/toast.service";
+import { ApiAuth } from "src/app/api/api.auth";
 
 /**
  * this component control the nagaivation menu 
@@ -25,7 +25,7 @@ export class NavBarComponent implements OnInit {
   faDesktop = faDesktop;
   faSignIn = faSignInAlt;
   faSignOut = faSignOutAlt;
-  isLoggedIn = this.cookieService.get('token');
+  isLoggedIn;
   actionBtnTooltipPlacement: string;
   userBtnTooltipPlacement: string;
 
@@ -33,11 +33,14 @@ export class NavBarComponent implements OnInit {
     public route: ActivatedRoute, 
     public router: Router,
     public loginApi: ApiLogin,
-    private cookieService:CookieService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authApi: ApiAuth
   ) { }
 
   ngOnInit() {
+    this.authApi.isAuthenticated().subscribe((authenticated) => {
+      this.isLoggedIn = authenticated
+    })
     this.loginApi.authenticated.subscribe((authenticated) => {
       this.isLoggedIn = authenticated;
     })
@@ -49,8 +52,6 @@ export class NavBarComponent implements OnInit {
   logout() {
     this.loginApi.logout().subscribe({
       next: () => {
-        this.cookieService.delete("token");
-        this.cookieService.delete("username");
         this.loginApi.authenticated.emit(false);
 
         this.toastService.show('Logged out successfully.', 

@@ -7,6 +7,7 @@ from sitemonitor.serializers import (SystemSettingSerializer,
 from sitemonitor.config import monitor, sys_info
 from django.shortcuts import render
 from django.contrib import auth
+from django.conf import settings
 
 User = auth.get_user_model()
 
@@ -73,8 +74,9 @@ class SystemInfoView(viewsets.GenericViewSet):
         return Response(sys_info.get_data())
 
 
-def index(request):
-    return render(request, 'sitemonitor/index.html')
+def index(request, path=''):
+    baseURL = '/' + settings.SITEMONITOR_PATH
+    return render(request, 'sitemonitor/index.html', {'base_path': baseURL})
 
 
 class AuthViewSet(viewsets.ViewSet):

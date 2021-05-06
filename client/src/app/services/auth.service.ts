@@ -23,8 +23,6 @@ export class AuthService implements CanActivate {
               res(true);
             } else {
               this.router.navigate(['/login']);
-              this.cookies.delete("username");
-              this.cookies.delete("token");
               this.toastService.show("Unable to authenticate. Please log in.",
                 { classname: 'bg-danger text-light' }
               )
@@ -33,8 +31,6 @@ export class AuthService implements CanActivate {
           },
           (error) => {
             this.router.navigate(['/login']);
-            this.cookies.delete("username");
-            this.cookies.delete("token");
             this.toastService.show("Unable to authenticate. Please log in.",
               { classname: 'bg-danger text-light' }
             )

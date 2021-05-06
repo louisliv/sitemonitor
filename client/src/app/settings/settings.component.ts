@@ -65,7 +65,6 @@ export class SettingsComponent implements OnInit {
   }
 
   public add = (setting: Setting) => {
-    console.log(setting);
     this.settingsApi.create(setting).subscribe({
       next: result => {
         this.settings.push(result);
@@ -78,7 +77,7 @@ export class SettingsComponent implements OnInit {
       error: err => {
         this.toastService.show(
           `${err.error.status}: ${err.error.message}`, 
-          { classname: 'bg-success text-light' }
+          { classname: 'bg-danger text-light' }
         )
       }
     })
@@ -95,7 +94,7 @@ export class SettingsComponent implements OnInit {
 
         this.toastService.show(
           'Setting stored successfully', 
-          { classname: 'bg-danger text-light' }
+          { classname: 'bg-success text-light' }
         )
       },
       error: err => {

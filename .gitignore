@@ -11,6 +11,6 @@ envs
 data
 /sitemoniter
 /client/package-lock.json
-static
+sitemonitor_django/static
 *package-lock.json
 *.sqlite3

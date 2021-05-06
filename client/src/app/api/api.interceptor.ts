@@ -8,13 +8,15 @@ import { Router } from '@angular/router';
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private injector: Injector, private router: Router, private cookieService: CookieService) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = this.cookieService.get('token');
-        if (token) {
+        const csrfToken = this.cookieService.get('csrftoken');
+        
+        if (csrfToken) {
             request = request.clone({
+                withCredentials: true,
                 setHeaders: {
-                Authorization: `Token ${token}`
+                    'X-CSRFToken': csrfToken
                 }
-            });
+            })
         }
         return next.handle(request);
     }

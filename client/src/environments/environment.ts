@@ -2,6 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+console.log(window.location.toString());
+
 export const environment = {
   production: false,
   apiUrl: `http://${window.location.hostname}:8000/sitemonitor/api`
