@@ -1,24 +1,33 @@
 <nav class="navbar navbar-expand-md navbar-dark nav-bar">
-  <ul ngbNav>
+  <ul ngbNav *ngIf="isLoggedIn">
     <li [ngbNavItem]="'home'">
       <a ngbNavLink routerLink="home" 
         [routerLinkActive]="'navTabActive'"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="btn btn-secondary">
+        class="btn btn-secondary"
+        [placement]="actionBtnTooltipPlacement"
+        ngbTooltip="Site Monitor"
+        container="body">
         <fa-icon [icon]="faChartArea"></fa-icon>
       </a>
     </li>
     <li [ngbNavItem]="'settings'">
       <a ngbNavLink routerLink="settings" 
         [routerLinkActive]="'navTabActive'"
-        class="btn btn-secondary">
+        class="btn btn-secondary"
+        [placement]="actionBtnTooltipPlacement"
+        ngbTooltip="Settings"
+        container="body">
         <fa-icon [icon]="faCog"></fa-icon>
       </a>
     </li>
     <li [ngbNavItem]="'system-info'">
       <a ngbNavLink routerLink="system-info" 
         [routerLinkActive]="'navTabActive'"
-        class="btn btn-secondary">
+        class="btn btn-secondary"
+        [placement]="actionBtnTooltipPlacement"
+        ngbTooltip="System Info"
+        container="body">
         <fa-icon [icon]="faDesktop"></fa-icon>
       </a>
     </li>
@@ -28,13 +37,19 @@
     <li [ngbNavItem]="'login'" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']"
         [routerLinkActive]="'navTabActive'"
-        class="btn btn-secondary">
+        class="btn btn-secondary"
+        [placement]="userBtnTooltipPlacement"
+        ngbTooltip="Login"
+        container="body">
         <fa-icon [icon]="faSignIn"></fa-icon>
       </a>
     </li>
     <li [ngbNavItem]="'logout'" *ngIf="isLoggedIn">
       <button class="btn btn-secondary"
-        (click)="logout()">
+        (click)="logout()"
+        [placement]="userBtnTooltipPlacement"
+        ngbTooltip="Logout"
+        container="body">
         <fa-icon [icon]="faSignOut"></fa-icon>
       </button>
     </li>

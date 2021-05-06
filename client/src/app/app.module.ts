@@ -19,10 +19,13 @@ import { AuthInterceptor } from './api/api.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from "./services/auth.service";
 import { ApiAuth } from "./api/api.auth";
+import { ToastService } from "./services/toast.service";
+import { ToastsComponent } from './services/toasts/toasts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ToastsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +42,7 @@ import { ApiAuth } from "./api/api.auth";
   ],
   providers: [
     ApiAuth,
+    ToastService,
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService

@@ -13,3 +13,4 @@ data
 /client/package-lock.json
 static
 *package-lock.json
+*.sqlite3

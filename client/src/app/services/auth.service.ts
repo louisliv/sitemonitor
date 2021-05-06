@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiAuth } from "src/app/api/api.auth";
 import { Router, CanActivate } from "@angular/router";
 import { CookieService } from 'ngx-cookie-service';
+import { ToastService } from "./toast.service"
 
 @Injectable()
 export class AuthService implements CanActivate {
@@ -10,7 +11,8 @@ export class AuthService implements CanActivate {
   constructor(
     private apiAuthService: ApiAuth, 
     private router: Router,
-    private cookies: CookieService
+    private cookies: CookieService,
+    private toastService: ToastService
   ) { }
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -23,6 +25,9 @@ export class AuthService implements CanActivate {
               this.router.navigate(['/login']);
               this.cookies.delete("username");
               this.cookies.delete("token");
+              this.toastService.show("Unable to authenticate. Please log in.",
+                { classname: 'bg-danger text-light' }
+              )
               res(false);
             }
           },
@@ -30,6 +35,9 @@ export class AuthService implements CanActivate {
             this.router.navigate(['/login']);
             this.cookies.delete("username");
             this.cookies.delete("token");
+            this.toastService.show("Unable to authenticate. Please log in.",
+              { classname: 'bg-danger text-light' }
+            )
             res(false);
           }
         );

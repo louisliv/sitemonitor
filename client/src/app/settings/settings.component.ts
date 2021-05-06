@@ -6,6 +6,7 @@ import { Setting } from "./../models/setting.model";
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SettingEditModal } from "./_components/edit/edit-modal.component";
 import * as _ from "lodash";
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +26,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private settingsApi: SettingsApi,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -51,10 +53,6 @@ export class SettingsComponent implements OnInit {
     this.currentModal.componentInstance.action = 'Add';
     this.currentModal.componentInstance.types = this.settingTypes;
     this.currentModal.componentInstance.actionFn = this.add;
-    
-    this.currentModal.result.then((result) => {
-      console.log(result)
-    });
   }
 
   openEditModal(setting) {
@@ -64,10 +62,6 @@ export class SettingsComponent implements OnInit {
     this.currentModal.componentInstance.action = 'Edit';
     this.currentModal.componentInstance.types = this.settingTypes;
     this.currentModal.componentInstance.actionFn = this.edit;
-    
-    this.currentModal.result.then((result) => {
-      console.log(result)
-    });
   }
 
   public add = (setting: Setting) => {
@@ -76,9 +70,16 @@ export class SettingsComponent implements OnInit {
       next: result => {
         this.settings.push(result);
         this.currentModal.dismiss();
+        this.toastService.show(
+          'Setting stored successfully', 
+          { classname: 'bg-success text-light' }
+        )
       },
       error: err => {
-        console.log(err);
+        this.toastService.show(
+          `${err.error.status}: ${err.error.message}`, 
+          { classname: 'bg-success text-light' }
+        )
       }
     })
   }
@@ -91,9 +92,17 @@ export class SettingsComponent implements OnInit {
         this.settings[index] = result;
 
         this.currentModal.dismiss();
+
+        this.toastService.show(
+          'Setting stored successfully', 
+          { classname: 'bg-danger text-light' }
+        )
       },
       error: err => {
-        console.log(err);
+        this.toastService.show(
+          `${err.error.status}: ${err.error.message}`, 
+          { classname: 'bg-danger text-light' }
+        )
       }
     })
   }
@@ -101,10 +110,18 @@ export class SettingsComponent implements OnInit {
   remove(setting: Setting) {
     this.settingsApi.destroy(setting).subscribe({
       next: result => {
-        _.remove(this.settings, {id: setting.id})
+        _.remove(this.settings, {id: setting.id});
+
+        this.toastService.show(
+          'Setting removed successfully', 
+          { classname: 'bg-success text-light' }
+        )
       },
       error: err => {
-        console.log(err);
+        this.toastService.show(
+          `${err.error.status}: ${err.error.message}`, 
+          { classname: 'bg-danger text-light' }
+        )
       }
     })
   }

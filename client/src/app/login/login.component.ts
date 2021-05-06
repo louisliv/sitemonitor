@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ApiLogin } from './../api/api.login';
-import { UserLogin } from './../models/user-login.model';
+import { ApiLogin } from 'src/app/api/api.login';
+import { UserLogin } from 'src/app/models/user-login.model';
+import { ToastService } from "src/app/services/toast.service";
 
 @Component({
   selector: 'login',
@@ -14,9 +15,10 @@ export class LoginComponent implements OnInit {
   serverError: string;
 
   constructor(
-    private apiLogin:ApiLogin, 
-    private cookieService:CookieService, 
-    private router:Router,
+    private apiLogin: ApiLogin, 
+    private cookieService: CookieService, 
+    private router: Router,
+    private toastService: ToastService
   ) { 
     this.userLogin = new UserLogin();
     this.serverError = '';
@@ -32,6 +34,11 @@ export class LoginComponent implements OnInit {
         this.cookieService.set("username", data.username);
         this.apiLogin.authenticated.emit(true);
         this.serverError = null;
+
+        this.toastService.show('Logged in successfully.', 
+          { classname: "bg-success text-light"}
+        )
+
         //Redirects to main page
         this.router.navigate(['./']);
       },
