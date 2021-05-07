@@ -49,25 +49,24 @@ class Monitor:
         temps = psutil.sensors_temperatures()[temp_key_setting.value]
 
         for temp in temps:
-            if "core" in temp[0].lower():
-                key = temp[0]
-                current_temp = {
-                    'temp': temp[1], 
-                    'time': datetime.now().strftime("%H:%M:%S")
-                }
-                high_temp = temp[2]
+            key = temp[0]
+            current_temp = {
+                'temp': temp[1], 
+                'time': datetime.now().strftime("%H:%M:%S")
+            }
+            high_temp = temp[3]
 
-                if (self.data['cpu_temps'].get(key, None) and 
-                    self.data['cpu_temps'][key].get('data', None)):
-                    current_list = self.data['cpu_temps'][key]['data']
-                    new_list = current_list[-19:]
-                    new_list.append(current_temp)
-                    self.data['cpu_temps'][key]['data'] = new_list
-                else:
-                    self.data['cpu_temps'][key] = {}
-                    self.data['cpu_temps'][key]['data'] = [current_temp]
-                    self.data['cpu_temps'][key]['high_temp'] = high_temp
-                    self.data['cpu_temps'][key]['label'] = key
+            if (self.data['cpu_temps'].get(key, None) and 
+                self.data['cpu_temps'][key].get('data', None)):
+                current_list = self.data['cpu_temps'][key]['data']
+                new_list = current_list[-19:]
+                new_list.append(current_temp)
+                self.data['cpu_temps'][key]['data'] = new_list
+            else:
+                self.data['cpu_temps'][key] = {}
+                self.data['cpu_temps'][key]['data'] = [current_temp]
+                self.data['cpu_temps'][key]['high_temp'] = high_temp
+                self.data['cpu_temps'][key]['label'] = key
 
     def get_data(self):
         self.cpu_usage()
