@@ -2,7 +2,7 @@ import React from "react";
 
 import { Table } from "react-bootstrap";
 
-import { getNumberFromString } from "../../../utils/utils";
+import { getBytesDisplay } from "../../../utils/utils";
 
 interface DiskTableProps {
   data: any;
@@ -34,15 +34,15 @@ export const DiskTable = ({data}: DiskTableProps) => {
         {disks && Object.keys(disks).map((diskLabel: string) => {
           const disk = disks[diskLabel];
 
-          const used = getNumberFromString(disk.used, 1);
-          const left = `${(getNumberFromString(disk.total, 1) - used).toFixed(1)}GB`;
+          const used = disk.used;
+          const left = disk.total - used;
 
           return (
             <tr key={diskLabel}>
               <td>{diskLabel}</td>
-              <td>{disk.used}</td>
-              <td>{left}</td>
-              <td>{disk.total}</td>
+              <td>{getBytesDisplay(used)}</td>
+              <td>{getBytesDisplay(left)}</td>
+              <td>{getBytesDisplay(disk.total)}</td>
               <td>{disk.percent}%</td>
             </tr>
           );

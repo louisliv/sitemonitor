@@ -25,8 +25,8 @@ export const DiskCard = ({data}: DiskCardProps) => {
       Object.keys(disks).forEach((diskLabel: string) => {
         const disk = disks[diskLabel];
 
-        const usedResponse = getNumberFromString(disk.used);
-        const leftResponse = getNumberFromString(disk.total) - usedResponse;
+        const usedResponse = disk.used;
+        const leftResponse = disk.total - usedResponse;
 
         usedAll += usedResponse;
         leftAll += leftResponse;

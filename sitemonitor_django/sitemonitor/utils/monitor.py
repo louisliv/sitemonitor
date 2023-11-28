@@ -3,24 +3,20 @@ from datetime import datetime
 from sitemonitor.models import SystemSetting
 
 KEY_VALUES = [
-    'cpu_usage',
-    'hdd_percent',
-    'used_mem',
-    'percent_mem',
-    'hdd_total',
-    'hdd_used',
-    'mem_total'
+    "cpu_usage",
+    "hdd_percent",
+    "used_mem",
+    "percent_mem",
+    "hdd_total",
+    "hdd_used",
+    "mem_total",
 ]
 
-MOUNT_POINTS_TO_SKIP = [
-    '/boot',
-    '/snap'
-]
+MOUNT_POINTS_TO_SKIP = ["/boot", "/snap"]
+
 
 class Monitor:
-    data={
-        'cpu_temps': {}
-    }
+    data = {"cpu_temps": {}}
 
     def __init__(self):
         for value in KEY_VALUES:
@@ -28,13 +24,13 @@ class Monitor:
 
     def cpu_usage(self):
         cpu_usage = psutil.cpu_percent(interval=2)
-        self.data['cpu_usage'] = float(cpu_usage)
+        self.data["cpu_usage"] = float(cpu_usage)
 
     def disk_usage(self):
         disks = {}
-        
+
         partitions = psutil.disk_partitions()
-        
+
         for partition in partitions:
             # Skip the specified mount points
             if [x for x in MOUNT_POINTS_TO_SKIP if x in partition.mountpoint]:
@@ -42,24 +38,24 @@ class Monitor:
 
             disk_usage = psutil.disk_usage(partition.mountpoint)
             disks[partition.mountpoint] = {
-                'percent': disk_usage.percent,
-                'total': sizeof_fmt(disk_usage.total),
-                'used': sizeof_fmt(disk_usage.used)
+                "percent": disk_usage.percent,
+                "total": disk_usage.total,
+                "used": disk_usage.used,
             }
-        
-        self.data['disks'] = disks
+
+        self.data["disks"] = disks
 
     def used_mem(self):
         mem_used = psutil.virtual_memory()
-        self.data['used_mem'] = sizeof_fmt(mem_used.used)
+        self.data["used_mem"] = sizeof_fmt(mem_used.used)
 
     def total_mem(self):
         mem_total = psutil.virtual_memory()
-        self.data['mem_total'] = sizeof_fmt(mem_total.total)
+        self.data["mem_total"] = sizeof_fmt(mem_total.total)
 
     def percent_mem(self):
         mem_percent = psutil.virtual_memory().percent
-        self.data['percent_mem'] = mem_percent
+        self.data["percent_mem"] = mem_percent
 
     def get_cpu_temps(self):
         temp_key_setting = SystemSetting.objects.get(key="cpu_temp_key")
@@ -68,22 +64,23 @@ class Monitor:
         for temp in temps:
             key = temp[0] if temp[0] else temp_key_setting.value
             current_temp = {
-                'temp': temp[1], 
-                'time': datetime.now().strftime("%H:%M:%S")
+                "temp": temp[1],
+                "time": datetime.now().strftime("%H:%M:%S"),
             }
             high_temp = temp[3]
 
-            if (self.data['cpu_temps'].get(key, None) and 
-                self.data['cpu_temps'][key].get('data', None)):
-                current_list = self.data['cpu_temps'][key]['data']
+            if self.data["cpu_temps"].get(key, None) and self.data["cpu_temps"][
+                key
+            ].get("data", None):
+                current_list = self.data["cpu_temps"][key]["data"]
                 new_list = current_list[-19:]
                 new_list.append(current_temp)
-                self.data['cpu_temps'][key]['data'] = new_list
+                self.data["cpu_temps"][key]["data"] = new_list
             else:
-                self.data['cpu_temps'][key] = {}
-                self.data['cpu_temps'][key]['data'] = [current_temp]
-                self.data['cpu_temps'][key]['high_temp'] = high_temp
-                self.data['cpu_temps'][key]['label'] = key
+                self.data["cpu_temps"][key] = {}
+                self.data["cpu_temps"][key]["data"] = [current_temp]
+                self.data["cpu_temps"][key]["high_temp"] = high_temp
+                self.data["cpu_temps"][key]["label"] = key
 
     def get_data(self):
         self.cpu_usage()
@@ -95,10 +92,10 @@ class Monitor:
 
         return self.data
 
-def sizeof_fmt(num, suffix='B'):
-    for unit in ['','K','M','G','T','P','E','Z']:
+
+def sizeof_fmt(num, suffix="B"):
+    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
-    return "%.1f%s%s" % (num, 'Y', suffix)
-
+    return "%.1f%s%s" % (num, "Y", suffix)
