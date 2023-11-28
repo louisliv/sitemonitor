@@ -4,8 +4,6 @@ import { Card } from "react-bootstrap";
 
 import { PercentagePieChart } from "../../../components/PercentagePieChart";
 
-import { getNumberFromString } from "../../../utils/utils";
-
 interface DiskCardProps {
   data: any;
 }
