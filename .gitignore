@@ -14,3 +14,4 @@ data
 sitemonitor_django/static
 *package-lock.json
 *.sqlite3
+env

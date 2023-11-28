@@ -1,0 +1,19 @@
+.sidebar-container {
+    position: sticky;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #15191c;
+
+    .sidebar {
+        transition: all 0.3s;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+
+        .navbar-nav {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

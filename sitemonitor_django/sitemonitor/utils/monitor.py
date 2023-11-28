@@ -12,6 +12,11 @@ KEY_VALUES = [
     'mem_total'
 ]
 
+MOUNT_POINTS_TO_SKIP = [
+    '/boot',
+    '/snap'
+]
+
 class Monitor:
     data={
         'cpu_temps': {}
@@ -26,11 +31,23 @@ class Monitor:
         self.data['cpu_usage'] = float(cpu_usage)
 
     def disk_usage(self):
-        disk_usage = psutil.disk_usage('/')
+        disks = {}
+        
+        partitions = psutil.disk_partitions()
+        
+        for partition in partitions:
+            # Skip the specified mount points
+            if [x for x in MOUNT_POINTS_TO_SKIP if x in partition.mountpoint]:
+                continue
 
-        self.data['hdd_percent'] = disk_usage.percent
-        self.data['hdd_total'] = sizeof_fmt(disk_usage.total)
-        self.data['hdd_used'] = sizeof_fmt(disk_usage.used)
+            disk_usage = psutil.disk_usage(partition.mountpoint)
+            disks[partition.mountpoint] = {
+                'percent': disk_usage.percent,
+                'total': sizeof_fmt(disk_usage.total),
+                'used': sizeof_fmt(disk_usage.used)
+            }
+        
+        self.data['disks'] = disks
 
     def used_mem(self):
         mem_used = psutil.virtual_memory()
@@ -49,7 +66,7 @@ class Monitor:
         temps = psutil.sensors_temperatures()[temp_key_setting.value]
 
         for temp in temps:
-            key = temp[0]
+            key = temp[0] if temp[0] else temp_key_setting.value
             current_temp = {
                 'temp': temp[1], 
                 'time': datetime.now().strftime("%H:%M:%S")

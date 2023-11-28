@@ -61,7 +61,7 @@ class SystemSettingViewSet(viewsets.ModelViewSet):
 
 
 class MonitorView(viewsets.GenericViewSet):
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
     
     def list(self, request):
         return Response(monitor.get_data())
