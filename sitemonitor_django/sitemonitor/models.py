@@ -67,6 +67,12 @@ class SystemSetting(models.Model):
         return eval(value_str)
 
     def save(self, *args, **kwargs):
+        if not self.value_type:
+            self.value_type = self.CHAR_TYPE
+            
+        if self.deletable is None:
+            self.deletable = True
+
         self.convert_value()
         super(SystemSetting, self).save(*args, **kwargs)
 

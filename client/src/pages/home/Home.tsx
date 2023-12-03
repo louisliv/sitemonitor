@@ -11,6 +11,8 @@ import { DiskTable } from "./components/DiskTable";
 import { MemoryCard } from "./components/MemoryCard";
 import { CPUTemps } from "./components/CPUTemps";
 
+import api from "../../utils/api";
+
 export const Home = () => {
   const [disks, setDisks] = React.useState<any | null>(null);
   const [cpuUsage, setCpuUsage] = React.useState<number | null>(null);
@@ -20,8 +22,8 @@ export const Home = () => {
 
   useEffect(() => {
     async function fetchMonitorData() {
-      const response = await fetch("/sitemonitor/api/monitor");
-      const data = await response.json();
+      const response = await api.get("/monitor");
+      const data = await response.data;
 
       setDisks(data.disks);
       setCpuUsage(data.cpu_usage);
@@ -29,16 +31,18 @@ export const Home = () => {
       setCpuTemps(Object.values(data.cpu_temps)[0]);
       setLoading(false);
     }
-    setInterval(fetchMonitorData, 1000 * 10)
+    const interval = setInterval(fetchMonitorData, 1000 * 10)
 
     fetchMonitorData();
+
+    return () => clearInterval(interval);
   }, []);
 
 
   if (loading) {
     return (
       <Row>
-        <Col className="text-center">
+        <Col className="text-center mt-5">
           <FontAwesomeIcon icon={faSpinner} spin size="6x" />
         </Col>
       </Row>

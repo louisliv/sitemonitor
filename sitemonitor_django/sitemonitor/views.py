@@ -23,7 +23,6 @@ class SystemSettingViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        print(data)
 
         try:
             new_setting = SystemSetting(
@@ -38,7 +37,7 @@ class SystemSettingViewSet(viewsets.ModelViewSet):
             return Response(SystemSettingSerializer(new_setting).data, 
                 status=status.HTTP_201_CREATED)
         except Exception as m:
-            return Response(m, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(m)}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk = None):
         old_setting = self.get_object()
@@ -61,7 +60,7 @@ class SystemSettingViewSet(viewsets.ModelViewSet):
 
 
 class MonitorView(viewsets.GenericViewSet):
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     
     def list(self, request):
         return Response(monitor.get_data())
@@ -89,7 +88,9 @@ class AuthViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['get'])
     def is_authenticated(self, request):
-        return Response(request.user.is_authenticated)
+        if request.user.is_authenticated:
+            return Response({}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['post'])
     def login(self, request):
@@ -128,7 +129,7 @@ class AuthViewSet(viewsets.ViewSet):
                     'message': 'Username/password combination invalid.'
                 }, status=status.HTTP_401_UNAUTHORIZED)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post', 'get'])
     def logout(self, request):
         auth.logout(request)
 
